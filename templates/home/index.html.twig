@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+<div class="container">
+    {% if action == "ConferenceVoted" %}
+        <p>Liste des confernces voté</p>
+    {% elseif action == "ConferenceNoVoted"%}
+        <p>Liste des confernces non voté</p>
+    {% elseif action == "SearchBar"%}
+        <p>Résultat pour votre recherche</p>
+    {% else %}
+        <p>Liste des conférences</p>
+    {% endif %}
+    <div style="display: flex">
+        <div class="row">
+            {% for conference in conferences %}
+                <div class="card mb-5" style="width: 18rem; margin-right: 5rem;">
+                    <img class="card-img-top" style="max-height: 10rem;" src="{{ conference.image }}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ conference.name }}</h5>
+                        <p class="card-text">{{ conference.description }}</p>
+                        <a href="{{ path("detail_conference", {id : conference.id}) }}" class="btn btn-primary">En Savoir +</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Conférences - Admin{% endblock %}
+
+{% block body %}
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Conférences</h1>
+        <p class="mb-4">Editer la conférences</p>
+        {{ form_start(formConf, {'attr': {'novalidate': 'novalidate'}}) }}
+        <div class="form-group">
+            <label>Nom de l'evenement</label>
+            {{ form_widget(formConf.name,{'attr': {'placeholder': 'Nom de l\'evenement','class':'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            <label>Ville</label>
+            {{ form_widget(formConf.location,{'attr': {'placeholder': 'Ville','class':'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            <label>Date de l'evenement</label>
+            {{ form_widget(formConf.dateEvent,{'attr': {'placeholder': 'Date','class':'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            {{ form_widget(formConf.description,{'attr': {'placeholder': 'Description','class':'form-control'}}) }}
+        </div>
+        {{ form_widget(formConf) }}
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+        {{ form_end(formConf) }}
+    </div>
+{% endblock %}

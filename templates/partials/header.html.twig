@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Conférence</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path("home") }}">Accueil <span class="sr-only">(current)</span></a>
+            </li>
+
+            {% if is_granted('ROLE_USER') %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Mon Compte
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{ path("conference_voted") }}">Conférence Voté</a>
+                    <a class="dropdown-item" href="{{ path("conference_no_voted") }}">Conférence non voté</a>
+                </div>
+            </li>
+            {% endif %}
+            <form class="form-inline" method="get" action="{{ path("search_conference") }}">
+                <input class="form-control mr-sm-2" name="search" type="text" placeholder="Rechercher une conférence">
+                <button class="btn btn-success" type="submit">Rechercher</button>
+            </form>
+        </ul>
+        {% if is_granted('ROLE_USER') %}
+            <a class="nav-link" target="_blank" href="{{ path("admin__index") }}">Admin</a>
+        {% endif %}
+        {% if is_granted('ROLE_USER') %}
+            <a class="nav-link" href="{{ path("user_logout") }}">Déconnexion</a>
+        {% else %}
+            <a class="nav-link" href="{{ path("user_login") }}">Connexion</a>
+        {% endif %}
+
+    </div>
+</nav>

@@ -1,0 +1,82 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Conférences - Admin{% endblock %}
+
+{% block body %}
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter Conférence</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form_start(formConf, {'attr': {'novalidate': 'novalidate'}}) }}
+                        {{ form_widget(formConf) }}
+
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        {{ form_end(formConf) }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Conférences</h1>
+    <div style="display: flex; justify-content: space-between">
+        <p class="mb-4">Liste des conférences</p>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAdd">Ajouter un Conférence</button>
+    </div>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Lieu</th>
+                        <th>Date Conférence</th>
+                        <th style="width: 20%">Description</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for conference in conferences %}
+                        <tr>
+                            <td>{{ conference.id }}</td>
+                            <td>{{ conference.name }}</td>
+                            <td>{{ conference.location }}</td>
+                            <td>{{ conference.dateEvent | date("d/m/Y") }}</td>
+                            <td>{{ conference.description }}</td>
+                            <td><img style="height: 50px; width: 100px" src="{{ conference.image }}" alt=""></td>
+                            <td>
+                                <a class="btn btn-danger" href="{{ path("admin__conference_del",{'id' : conference.id}) }}"><i class="fas fa-times"></i></a>
+                                <a class="btn btn-secondary" href="{{ path("admin__conference_edit",{'id' : conference.id}) }}"><i class="fas fa-edit"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+    {% endblock %}
