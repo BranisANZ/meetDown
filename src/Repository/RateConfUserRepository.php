@@ -38,6 +38,19 @@ class RateConfUserRepository extends ServiceEntityRepository
         return $rating;
     }
 
+    public function getTopTen()
+    {
+        return $this->createQueryBuilder('g')
+            ->select('(g.conference) AS id, c.name , c.description, AVG(g.rate) AS moyen, COUNT(g.rate) AS nbrvote')
+            ->leftJoin('g.conference','c')
+            ->groupBy('g.conference')
+            ->orderBy('moyen ', 'DESC')
+            ->orderBy('nbrvote', 'DESC')
+            ->setMaxResults('10')
+            ->getQuery()
+            ->getResult();
+    }
+
 
 
     // /**

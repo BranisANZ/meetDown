@@ -1,0 +1,16 @@
+{% macro showConference(conferences) %}
+    <div style="display: flex" class="mt-5">
+        <div class="row" style="display: flex;justify-content: center">
+            {% for conference in conferences %}
+                <div class="card mb-5" style="width: 18rem; margin-right: 5rem;">
+                    <img class="card-img-top" style="max-height: 10rem;" src="{{ conference.image }}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ conference.name }}</h5>
+                        <p style="min-width: 10rem" class="card-text">{{ conference.description | slice(0,50) }}...</p>
+                        <a href="{{ path("detail_conference", {id : conference.id}) }}" class="btn btn-primary">En Savoir +</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endmacro %}

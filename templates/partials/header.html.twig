@@ -1,39 +1,64 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Conférence</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top py-3 navbar-scrolled" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href={{ path("home") }}>MeetDown</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+           <i style="color:black" class="fas fa-angle-down"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="{{ path("home") }}">Accueil <span class="sr-only">(current)</span></a>
-            </li>
-
-            {% if is_granted('ROLE_USER') %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Mon Compte
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ path("conference_voted") }}">Conférence Voté</a>
-                    <a class="dropdown-item" href="{{ path("conference_no_voted") }}">Conférence non voté</a>
-                </div>
-            </li>
-            {% endif %}
-            <form class="form-inline" method="get" action="{{ path("search_conference") }}">
-                <input class="form-control mr-sm-2" name="search" type="text" placeholder="Rechercher une conférence">
-                <button class="btn btn-success" type="submit">Rechercher</button>
-            </form>
-        </ul>
-        {% if is_granted('ROLE_USER') %}
-            <a class="nav-link" target="_blank" href="{{ path("admin__index") }}">Admin</a>
-        {% endif %}
-        {% if is_granted('ROLE_USER') %}
-            <a class="nav-link" href="{{ path("user_logout") }}">Déconnexion</a>
-        {% else %}
-            <a class="nav-link" href="{{ path("user_login") }}">Connexion</a>
-        {% endif %}
-
+            <div class="md-form mt-0">
+                <form class="form-inline" method="get" action="{{ path("search_conference") }}">
+                    <input class="form-control" type="text" name="search" placeholder="Rechercher une conférence">
+                </form>
+            </div>
+            <ul class="navbar-nav ml-auto my-2 my-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="#services">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="{{ path("conference_all") }}">Conférences</a>
+                </li>
+                {% if is_granted('ROLE_USER') %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Mon Compte
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ path("conference_voted") }}">Conférence Voté</a>
+                            <a class="dropdown-item" href="{{ path("conference_no_voted") }}">Conférence non voté</a>
+                        </div>
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_USER') %}
+                    <li class="nav-item">
+                        <a class="nav-link" target="_blank" href="{{ path("admin__index") }}">Admin</a>
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_USER') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path("user_logout") }}">Déconnexion</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path("user_login") }}">Connexion</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
     </div>
 </nav>
+{% for message in app.flashes('success') %}
+    <section style="padding-top: 8rem">
+        <div class="alert alert-success text-center">
+            {{ message }}
+        </div>
+    </section>
+{% endfor %}
+{% for message in app.flashes('danger') %}
+    <section style="padding-top: 8rem">
+        <div class="alert alert-danger text-center">
+            {{ message }}
+        </div>
+    </section>
+{% endfor %}

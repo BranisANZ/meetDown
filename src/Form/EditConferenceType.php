@@ -19,7 +19,7 @@ class EditConferenceType extends AbstractType
             ->add('location')
             ->add('dateEvent',DateTimeType::class)
             ->add('description',TextareaType::class)
-            ->add('image',FileType::class)
+            ->add('image',FileType::class, array('data_class' => null))
         ;
     }
 

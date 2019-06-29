@@ -1,43 +1,24 @@
 {% extends 'base.html.twig' %}
+{% import "macro/showConference.html.twig" as macroConf %}
 
 {% block title %}Hello ConferenceController!{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="jumbotron">
-            <img src="{{ conference.image }}" alt="">
-            <div style="display: flex;flex-direction: row;justify-content: space-between;">
-                <h1 class="display-4">{{ conference.name }}</h1>
-                <div>
-                    <span>Note</span> <br>
-                    {% if rating is defined and rating is not null %}
-                        {% for i in 1..rating %}
-                            <i class="fa fa-star" style="color: gold"></i>
-                        {% endfor %}
-                    {% else %}
-                        <p>Pas encore de notation</p>
-                    {% endif %}
-                </div>
-
+    <section class="page-section">
+        <div class="container">
+            <div class="text-center">
+                {% if action == "ConferenceVoted" %}
+                    <h2>Liste des conférences voté</h2>
+                {% elseif action == "ConferenceNoVoted"%}
+                    <h2>Liste des conférences non voté</h2>
+                {% elseif action == "SearchBar"%}
+                    <h2>Résultat pour votre recherche</h2>
+                {% else %}
+                    <h2>Liste des conférences</h2>
+                {% endif %}
             </div>
 
-            <p class="lead">{{ conference.description }}</p>
-            <hr class="my-4">
-            <p>{{ conference.location }} à {{ conference.dateEvent | date('d/m/Y') }}</p>
+            {{ macroConf.showConference(conferences) }}
         </div>
-
-        {% if isVoted != true %}
-            {{ form_start(formRate) }}
-            <div class="form-group">
-                <label>Note</label>
-                {{ form_widget(formRate.rate,{'attr': {'placeholder': 'Note','class':'form-control'}}) }}
-            </div>
-            <button type="submit" class="btn btn-primary">Noter</button>
-            {{ form_end(formRate) }}
-
-        {% else %}
-            Vous avez déjà voté pour cette conférence
-        {% endif %}
-    </div>
-
+    </section>
 {% endblock %}

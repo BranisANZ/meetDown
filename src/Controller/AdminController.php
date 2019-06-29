@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Conference;
+use App\Entity\RateConfUser;
 use App\Entity\User;
 use App\Form\EditConferenceType;
 use App\Form\EditUserType;
 use App\Form\UserRegisterType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
@@ -23,8 +25,11 @@ class AdminController extends AbstractController
      */
     public function index()
     {
+        $em = $this->getDoctrine()->getManager();
+        $topten = $em->getRepository(RateConfUser::class)->getTopTen();
         return $this->render('admin/index.html.twig', [
             'controller_name' => 'AdminController',
+            'topTen' => $topten
         ]);
     }
 
@@ -38,11 +43,24 @@ class AdminController extends AbstractController
         $conferenceForm = $this->createForm(EditConferenceType::class, $conference);
         $conferenceForm->handleRequest($request);
         if ($conferenceForm->isSubmitted() && $conferenceForm->isValid()) {
+            $file = $conferenceForm->get('image')->getData();
+            $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
+            // Move the file to the directory where brochures are stored
+            try {
+                $file->move(
+                    $this->getParameter('conferenceImg_directory'),
+                    $fileName
+                );
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+            $conference->setImage($fileName);
+
             $conference = $conferenceForm->getData();
             $em->persist($conference);
             $em->flush();
-            $this->addFlash("success", "L'ajout à bien été prise en compte");
-            return $this->redirectToRoute('admin__conference');
+           /* $this->addFlash("success", "L'ajout à bien été prise en compte");
+            return $this->redirectToRoute('admin__conference');*/
         }
         $conferences = $this->getDoctrine()
             ->getRepository(Conference::class)
@@ -149,6 +167,10 @@ class AdminController extends AbstractController
     }
 
 
+    private function generateUniqueFileName()
+    {
+        return md5(uniqid());
+    }
 
 
 }

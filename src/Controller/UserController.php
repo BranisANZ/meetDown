@@ -32,7 +32,6 @@ class UserController extends AbstractController
         $userForm = $this->createForm(UserLoginType::class, $user);
         $userForm->handleRequest($request);
         $error = $authenticationUtils->getLastAuthenticationError();
-        dump($error);
         $lastUsername = $authenticationUtils->getLastUsername();
         if($error != null){
             $this->addFlash("danger","Une erreur s'est produite ! ");

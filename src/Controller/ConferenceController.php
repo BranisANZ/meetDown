@@ -15,6 +15,23 @@ class ConferenceController extends AbstractController
 {
 
     /**
+     * Liste toutes les conférence que l'utilisateur à noté
+     * @Route("/conference/", name="conference_all")
+     */
+    public function conferenceAll()
+    {
+        $allConf = $this->getDoctrine()
+            ->getRepository(Conference::class)
+            ->findAll();
+        dump($allConf);
+
+        return $this->render('conference/index.html.twig', [
+            'action' => 'ConferenceAll',
+            'conferences' => $allConf
+        ]);
+    }
+
+    /**
      * Liste les conférence que l'utilisateur à noté
      * @Route("/conference/voted", name="conference_voted")
      */
@@ -23,14 +40,12 @@ class ConferenceController extends AbstractController
         $confVoted = $this->getDoctrine()
             ->getRepository(RateConfUser::class)
             ->findBy(['user' => $this->getUser()]);
-        dump($confVoted);
         $arrayConf = [];
         foreach ($confVoted as $value){
             $arrayConf[] = $value->getConference();
         }
-        dump($arrayConf);
         $arrayConf = array_unique($arrayConf);
-        return $this->render('home/index.html.twig', [
+        return $this->render('conference/index.html.twig', [
             'action' => 'ConferenceVoted',
             'conferences' => $arrayConf
         ]);
@@ -45,15 +60,12 @@ class ConferenceController extends AbstractController
         $confVoted = $this->getDoctrine()
             ->getRepository(RateConfUser::class)
             ->findBy(['user' => $this->getUser()]);
-        dump($confVoted);
         $arrayConfVotedByUser = [];
         foreach ($confVoted as $value){
             $arrayConfVotedByUser[] = $value->getConference();
         }
-        dump($arrayConfVotedByUser);
 
         $arrayConfVotedByUser = array_unique($arrayConfVotedByUser);
-        dump($arrayConfVotedByUser);
         $confVoted = $this->getDoctrine()
             ->getRepository(Conference::class)
             ->findAll();
@@ -66,9 +78,7 @@ class ConferenceController extends AbstractController
             }
         }
 
-        dump($arrayConfNoVotedByUser);
-
-        return $this->render('home/index.html.twig', [
+        return $this->render('conference/index.html.twig', [
             'action' => 'ConferenceNoVoted',
             'conferences' => $arrayConfNoVotedByUser
         ]);
@@ -84,6 +94,7 @@ class ConferenceController extends AbstractController
             ->findOneBy(['id' => $id]);
 
         $rating = null;
+
         if($this->checkRate($id) == true){
             $rating = $this->getDoctrine()
                 ->getRepository(RateConfUser::class)
@@ -105,7 +116,7 @@ class ConferenceController extends AbstractController
             return $this->redirectToRoute('detail_conference', ['id' => $conference->getId()]);
         }
 
-        return $this->render('conference/index.html.twig', [
+        return $this->render('conference/conference.html.twig', [
             'controller_name' => 'ConferenceController',
             'conference' => $conference,
             'rating' => $rating,
@@ -122,13 +133,10 @@ class ConferenceController extends AbstractController
         $conference = $this->getDoctrine()
             ->getRepository(Conference::class)
             ->findAll();
-
-        dump($conference);
-        dump(json_encode($conference));
-
-        return "";
-        return new Response(json_encode($conference));
-
+        $test= [];
+        $test[]= "faise";
+        $test[] = "banane";
+        return new Response(json_encode($test));
     }
 
 

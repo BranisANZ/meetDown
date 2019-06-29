@@ -2,58 +2,50 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Bonjour !{% endblock %}</title>
         {% block stylesheets %}
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="https://use.fontawesome.com/releases/v5.0.7/css/all.css" rel="stylesheet">
+        <link href="{{ asset("css/main.css") }}" rel="stylesheet">
         {% endblock %}
     </head>
     <body>
         {% include 'partials/header.html.twig' %}
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success text-center">
-                {{ message }}
-            </div>
-        {% endfor %}
-        {% for message in app.flashes('danger') %}
-            <div class="alert alert-danger text-center">
-                {{ message }}
-            </div>
-        {% endfor %}
 
         {% block body %}{% endblock %}
+        {% include 'partials/footer.html.twig' %}
         {% block javascripts %}
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+            <script src="{{ asset("js/main.js") }}"></script>
 
             <script>
-               /* $( function() {
-                    var availableTags;
+               $( function() {
+                    var availableTags = ["test","branis"];
+                   $.ajax({
+                       url : '{{ path('search_bar') }}', // La ressource ciblée
+                       type : 'GET', // Le type de la requête HTTP.
+                       success : function(json){
+                           availableTags = json;
+                           console.log(availableTags);
+
+                       }
+                   });
                     $("#btnSubmit").click(function(){
-                        var input = $('#tags').val();
-                        $.ajax({
-                            url : '{{ path('search_bar') }}', // La ressource ciblée
-                            type : 'GET', // Le type de la requête HTTP.
-                            data : 'data='+input,
-                            success : function(json){
-                                 availableTags = json;
-                                var myObj = $.parseJSON(json);
-                                console.log(myObj);
-
-                            }
-
-                        });
-                        $( "#tags" ).autocomplete({
-                            minLength : 3,
-                            source: availableTags
-                        });
+                       console.log(availableTags);
 
                     });
 
+                   $( "#tags" ).autocomplete({
+                       source: availableTags
+                   });
+
 
                 } );
-                */
+
             </script>
         {% endblock %}
     </body>

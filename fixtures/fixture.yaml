@@ -1,0 +1,25 @@
+App\Entity\Conference:
+  conference{1..20}:
+    name: '<name()>'
+    location: '<city()>'
+    dateEvent: '<dateTimeBetween("now","+200 days")>'
+    description: '<text()>'
+    image: '<imageUrl(650, 350)>'
+App\Entity\User:
+    user1:
+      lastname: 'admin'
+      firstname: 'admin'
+      email: 'admin@admin.fr'
+      roles: '[ROLE_ADMIN]'
+      password: '\$2y\$13\$CS0J7wLWtRKPlMsr9nrzxevFSTIigT5GvpbPQ8DRJG99qUSKcfgqe'
+    user{2.20}:
+      lastname: '<name()>'
+      firstname: '<name()>'
+      email: '<email()>'
+      roles: '[ROLE_USER]'
+      password: '\$2y\$13\$CS0J7wLWtRKPlMsr9nrzxevFSTIigT5GvpbPQ8DRJG99qUSKcfgqe'
+App\Entity\RateConfUser:
+  rateconfuser{1..50}:
+    user: '@user1'
+    conference: '@conference<numberBetween(1,20)>'
+    rate: '<numberBetween(0,5)>'

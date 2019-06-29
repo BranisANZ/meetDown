@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conférence {{ conference.name }} - MeetDown!{% endblock %}
+
+{% block body %}
+    <section class="page-section">
+        <div class="container">
+            <div class="jumbotron">
+                {% set imageLink = conference.image | split(':') %}
+                {% set isUrl = false %}
+                {% if imageLink.0 == "https" or imageLink.0 == "http"  %}
+                    {% set isUrl = true%}
+                {% endif %}
+
+                {% if isUrl == true %}
+                    <img style="width: 100%" src="{{ conference.image }}" alt="">
+                {% else %}
+                    <img style="width: 100%" src="{{ asset("/uploads/img/conference/") }}{{ conference.image }}" alt="">
+                {% endif %}
+                <div style="display: flex;flex-direction: row;justify-content: space-between;">
+                    <h1 class="display-4">{{ conference.name }}</h1>
+                    <div>
+                        <span>Note</span> <br>
+                        {% if rating is defined and rating is not null %}
+                            {% for i in 1..rating %}
+                                <i class="fa fa-star" style="color: gold"></i>
+                            {% endfor %}
+                        {% else %}
+                            <p>Pas encore de notation</p>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+                <p class="lead">{{ conference.description }}</p>
+                <hr class="my-4">
+                <p>{{ conference.location }} à {{ conference.dateEvent | date('d/m/Y') }}</p>
+            </div>
+
+            {% if isVoted != true %}
+                {{ form_start(formRate) }}
+                <div class="form-group">
+                    <label>Note</label>
+                    {{ form_widget(formRate.rate,{'attr': {'placeholder': 'Note','class':'form-control'}}) }}
+                </div>
+                <button type="submit" class="btn btn-primary">Noter</button>
+                {{ form_end(formRate) }}
+
+            {% else %}
+                Vous avez déjà voté pour cette conférence
+            {% endif %}
+        </div>
+    </section>
+
+
+{% endblock %}
