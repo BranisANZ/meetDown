@@ -22,7 +22,7 @@ class ConferenceController extends AbstractController
     {
         $allConf = $this->getDoctrine()
             ->getRepository(Conference::class)
-            ->findAll();
+            ->findBy([],['id' => 'DESC']);
 
         return $this->render('conference/index.html.twig', [
             'action' => 'ConferenceAll',
@@ -67,7 +67,7 @@ class ConferenceController extends AbstractController
         $arrayConfVotedByUser = array_unique($arrayConfVotedByUser);
         $confVoted = $this->getDoctrine()
             ->getRepository(Conference::class)
-            ->findAll();
+            ->findBy([],['id' => 'DESC']);
 
         $arrayConfNoVotedByUser = [];
         // Parcours les conférences et vérifie si elles ont été voté par l'utilisateur
