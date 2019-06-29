@@ -3,7 +3,17 @@
         <div class="row" style="display: flex;justify-content: center">
             {% for conference in conferences %}
                 <div class="card mb-5" style="width: 18rem; margin-right: 5rem;">
-                    <img class="card-img-top" style="max-height: 10rem;" src="{{ conference.image }}" alt="Card image cap">
+                    {% set imageLink = conference.image | split(':') %}
+                    {% set isUrl = false %}
+                    {% if imageLink.0 == "https" or imageLink.0 == "http"  %}
+                        {% set isUrl = true%}
+                    {% endif %}
+
+                    {% if isUrl == true %}
+                        <img class="card-img-top" style="max-height: 10rem;" src="{{ conference.image }}" alt="Card image cap">
+                    {% else %}
+                        <img class="card-img-top" style="max-height: 10rem;" src="{{ asset("/uploads/img/conference/") }}{{ conference.image }}" alt="Card image cap">
+                    {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ conference.name }}</h5>
                         <p style="min-width: 10rem" class="card-text">{{ conference.description | slice(0,50) }}...</p>

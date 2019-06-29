@@ -35,20 +35,20 @@
                 <p class="lead">{{ conference.description }}</p>
                 <hr class="my-4">
                 <p>{{ conference.location }} à {{ conference.dateEvent | date('d/m/Y') }}</p>
+
+                {% if isVoted != true %}
+                    {{ form_start(formRate) }}
+                    <div class="form-group">
+                        {{ form_widget(formRate.rate,{'attr': {'placeholder': 'Note','class':'form-control','min':'0','max':'5'}}) }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Noter</button>
+                    {{ form_end(formRate) }}
+
+                {% else %}
+                    Vous avez déjà voté pour cette conférence
+                {% endif %}
             </div>
 
-            {% if isVoted != true %}
-                {{ form_start(formRate) }}
-                <div class="form-group">
-                    <label>Note</label>
-                    {{ form_widget(formRate.rate,{'attr': {'placeholder': 'Note','class':'form-control'}}) }}
-                </div>
-                <button type="submit" class="btn btn-primary">Noter</button>
-                {{ form_end(formRate) }}
-
-            {% else %}
-                Vous avez déjà voté pour cette conférence
-            {% endif %}
         </div>
     </section>
 

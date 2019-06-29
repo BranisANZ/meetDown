@@ -23,7 +23,6 @@ class ConferenceController extends AbstractController
         $allConf = $this->getDoctrine()
             ->getRepository(Conference::class)
             ->findAll();
-        dump($allConf);
 
         return $this->render('conference/index.html.twig', [
             'action' => 'ConferenceAll',
@@ -100,7 +99,6 @@ class ConferenceController extends AbstractController
                 ->getRepository(RateConfUser::class)
                 ->findAverageByConf($id);
         }
-        dump($rating);
 
         $isVoted = false;
         if($this->isVoted($id) == true){
@@ -112,7 +110,12 @@ class ConferenceController extends AbstractController
         $rateForm->handleRequest($request);
         if ($rateForm->isSubmitted() && $rateForm->isValid()) {
             $rate = $rateForm->getData();
-            $this->addRate($rate,$conference);
+            if ($rate->getRate() >= 0 && $rate->getRate() <= 5 ){
+                $this->addRate($rate,$conference);
+            }else{
+                $this->addFlash("danger","Vous devez mettre une note comprise entre 0 et 5");
+            }
+
             return $this->redirectToRoute('detail_conference', ['id' => $conference->getId()]);
         }
 

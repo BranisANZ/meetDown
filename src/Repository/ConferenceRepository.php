@@ -59,6 +59,7 @@ class ConferenceRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
             ->setMaxResults(6)
+            ->orderBy('c.id', 'DESC')
             ->getQuery()
             ->getResult()
         ;
