@@ -17,7 +17,6 @@ class HomeController extends AbstractController
         $allConf = $this->getDoctrine()
             ->getRepository(Conference::class)
             ->findSixLastConf();
-        dump($allConf);
         return $this->render('home/index.html.twig', [
             'action' => 'HomeController',
             'conferences' => $allConf

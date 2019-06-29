@@ -64,7 +64,17 @@
                             <td>{{ conference.location }}</td>
                             <td>{{ conference.dateEvent | date("d/m/Y") }}</td>
                             <td>{{ conference.description }}</td>
-                            <td><img style="height: 50px; width: 100px" src="{{ conference.image }}" alt=""></td>
+                            {% set imageLink = conference.image | split(':') %}
+                            {% set isUrl = false %}
+                            {% if imageLink.0 == "https" or imageLink.0 == "http"  %}
+                                {% set isUrl = true%}
+                            {% endif %}
+
+                            {% if isUrl == true %}
+                                <td><img style="height: 50px; width: 100px" src="{{ conference.image }}" alt=""></td>
+                            {% else %}
+                                <td><img style="height: 50px; width: 100px" src="{{ asset("/uploads/img/conference/") }}{{ conference.image }}" alt=""></td>
+                            {% endif %}
                             <td>
                                 <a class="btn btn-danger" href="{{ path("admin__conference_del",{'id' : conference.id}) }}"><i class="fas fa-times"></i></a>
                                 <a class="btn btn-secondary" href="{{ path("admin__conference_edit",{'id' : conference.id}) }}"><i class="fas fa-edit"></i></a>
