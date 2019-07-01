@@ -1,4 +1,4 @@
-# Foobar
+# MeetDown
 
 MeetDown est une site qui permet de créer, gerer les différentes conférences, il est également possible de noter une conférences, et également possible à l'aide d'un compte Administrateur de gerer toutes les conférences ainsi que les membres de MeetDown
 ## Installation
